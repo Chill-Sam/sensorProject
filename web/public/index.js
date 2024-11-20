@@ -3,7 +3,19 @@ const temperatureColor = "rgba(255, 165, 0, 1)";
 const humidityColor = "rgba(75, 192, 192, 1)";
 
 // Setup Firebase
-const firebaseConfig = {};
+const firebaseConfig = {
+    apiKey: "AIzaSyBSr0zEmbKcSpxDtsCKDqHm3VoWq2j-LVY",
+    authDomain: "temperature-school.firebaseapp.com",
+
+    databaseURL:
+        "https://temperature-school-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "temperature-school",
+    storageBucket: "temperature-school.firebasestorage.app",
+    messagingSenderId: "147048153777",
+    appId: "1:147048153777:web:39d5016ab3f87502155890",
+
+    measurementId: "G-487F35J2H1",
+};
 
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
