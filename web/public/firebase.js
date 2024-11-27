@@ -18,6 +18,7 @@ var dateRef = database.ref(dateInput.value);
 var temperature_dataset;
 var humidity_dataset;
 dateInput.addEventListener("change", (_event) => {
+    graph.clearChart();
     dateRef = database.ref(dateInput.value);
     dateRef.get().then((snapshot) => {
         if (snapshot.exists()) {
@@ -32,7 +33,6 @@ dateInput.addEventListener("change", (_event) => {
                 y: entry.humidity,
             }));
         }
-        graph.clearChart();
         update();
     });
 });
