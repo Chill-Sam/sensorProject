@@ -19,6 +19,10 @@ var temperature_dataset;
 var humidity_dataset;
 dateInput.addEventListener("change", (_event) => {
     graph.clearChart();
+    if (!dateInput.value) {
+        dateRef = database.ref("0000-00-00");
+        return;
+    }
     dateRef = database.ref(dateInput.value);
     dateRef.get().then((snapshot) => {
         if (snapshot.exists()) {
@@ -38,6 +42,9 @@ dateInput.addEventListener("change", (_event) => {
 });
 
 dateRef.on("value", (snapshot) => {
+    if (!dateInput.value) {
+        return; // No date selected
+    }
     const data = snapshot.val();
     if (!data) {
         return;
