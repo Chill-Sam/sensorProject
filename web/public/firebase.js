@@ -1,10 +1,3 @@
-/**
- * Firebase configuration object.
- * @type {Object}
- */
-
-const firebaseConfig = {};
-
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
