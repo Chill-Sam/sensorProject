@@ -11,13 +11,22 @@
         <script></script>
     </head>
     <body>
-        <div class="box" id="header-wrapper">
-            <h1>Sensor Website Hitachigymnasiet</h1>
-            <h2>Jonathan Wåhrenberg</h2>
+        <div id="header-container">
+            <div class="box" id="header-wrapper">
+                <h1>Sensor Website Hitachigymnasiet</h1>
+            </div>
+            <div class="box" id="name-wrapper">
+                Jonathan<br />
+                Wåhrenberg
+            </div>
         </div>
         <div id="center-wrapper">
             <div class="box" id="setting-wrapper">
-                <button id="temperature-button" type="button">
+                <button
+                    class="temperature-button"
+                    id="temperature-button"
+                    type="button"
+                >
                     Temperature
                 </button>
                 <input id="date-input" type="date" name="date-input" />
@@ -25,9 +34,11 @@
             </div>
             <div class="box" id="measurement-wrapper">
                 <div id="current-measurement">
-                    <div class="box">Current:</div>
-                    <div class="box" id="current-temperature">NA°C</div>
-                    <div class="box" id="current-humidity">NA%</div>
+                    <div id="current-time">Current:</div>
+                    <div id="current-wrapper">
+                        <div id="current-temperature">NA°C</div>
+                        <div id="current-humidity">NA%</div>
+                    </div>
                 </div>
                 <div id="measurement-container">
                     <canvas id="measurement-graph"></canvas>

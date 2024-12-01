@@ -34,6 +34,7 @@ class Graph {
 
             // Display timestamp as a date
             ticks: {
+                color: "black",
                 callback: (value) =>
                     new Date(value).toLocaleTimeString("sv-SE", {
                         timeZone: "Europe/Berlin",
@@ -65,6 +66,10 @@ class Graph {
             title: {
                 display: true,
                 text: title,
+                color: "black",
+            },
+            ticks: {
+                color: "black",
             },
         };
     }
@@ -94,8 +99,12 @@ class Graph {
             },
             options: {
                 responsive: true,
+                scaleFontColor: "#000000",
                 maintainAspectRatio: false,
-
+                interaction: {
+                    intersect: false,
+                    axis: "x",
+                },
                 animation: false,
                 parse: false,
                 scales: this.#scales,

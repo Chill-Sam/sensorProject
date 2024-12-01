@@ -68,3 +68,22 @@ document.querySelectorAll("#setting-wrapper button").forEach((button) => {
         update();
     });
 });
+
+function updateTime() {
+    const timeDiv = document.getElementById("current-time");
+    const now = new Date();
+    timeDiv.textContent = now.toLocaleString("sv-SE", {
+        timeZone: "Europe/Berlin",
+    });
+}
+
+let date = dateInput.valueAsDate;
+const offset = 3600000; // Offset for Europe/Berlin timezone
+let start = new Date(date).setHours(0, 0, 0, 0) - offset;
+let end = new Date(date).setHours(23, 59, 59, 999) - offset;
+
+graph.setScale(start, end);
+
+// Update time immediately and then every second
+updateTime();
+setInterval(updateTime, 1000);

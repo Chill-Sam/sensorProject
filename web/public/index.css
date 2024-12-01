@@ -21,7 +21,6 @@ body {
     width: 100vw;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .box {
@@ -29,8 +28,12 @@ body {
     border: 0.1rem solid #ffffff;
 }
 
+#header-container {
+    display: flex;
+}
+
 #header-wrapper {
-    border: thick double #ffffff;
+    border: 0.1rem solid #ffffff;
     height: max-content;
     width: max-content;
     display: flex;
@@ -38,23 +41,29 @@ body {
     justify-content: center;
     align-items: center;
     padding: 5px;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+#name-wrapper {
+    flex: 1;
+    margin-right: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-text-color);
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 5px;
 }
 
 #header-wrapper h1 {
     color: var(--main-text-color);
     font-size: 2rem;
     text-align: center;
-    margin-bottom: -1rem;
-}
-
-#header-wrapper h2 {
-    color: var(--main-text-color);
-    font-size: 1rem;
-    text-align: center;
 }
 
 #center-wrapper {
-    width: 95%;
     flex: 1;
     margin: 0.5rem;
     gap: 0.5rem;
@@ -70,35 +79,126 @@ body {
     grid-template-columns: 1fr 2fr 1fr;
 }
 
-#setting-wrapper button,
-input {
-    border-radius: 15px;
-    font-size: 1.5rem;
-}
-
+/* Toggle temperature button styling */
 #temperature-button {
-    color: rgba(255, 165, 0, 1);
+    position: relative;
+    border: none;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--main-text-color);
+    background: rgb(36, 0, 0);
+    background: linear-gradient(
+        135deg,
+        rgba(36, 0, 0, 1) 0%,
+        rgba(121, 9, 9, 1) 35%,
+        rgba(255, 0, 0, 1) 100%
+    );
+    transition: transform 0.2s ease;
+    z-index: 1;
 }
 
+#temperature-button::before {
+    border-radius: 20px;
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(
+        -135deg,
+        rgba(36, 0, 0, 1) 0%,
+        rgba(121, 9, 9, 1) 35%,
+        rgba(255, 0, 0, 1) 100%
+    );
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+#temperature-button:hover {
+    transform: scale(1.02);
+}
+
+#temperature-button:active {
+    transform: scale(0.95);
+}
+
+#temperature-button:hover::before {
+    opacity: 1;
+}
+
+/* Toggle humidity button styling */
 #humidity-button {
-    color: rgba(75, 192, 192, 1);
+    position: relative;
+    border: none;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--main-text-color);
+    background: rgb(2, 0, 36);
+    background-image: linear-gradient(
+        135deg,
+        rgba(2, 0, 36, 1) 0%,
+        rgba(9, 9, 121, 1) 35%,
+        rgba(0, 212, 255, 1) 100%
+    );
+    transition: transform 0.2s ease;
+    z-index: 1;
 }
 
+#humidity-button::before {
+    border-radius: 20px;
+    position: absolute;
+    content: "";
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(
+        -135deg,
+        rgba(2, 0, 36, 1) 0%,
+        rgba(9, 9, 121, 1) 35%,
+        rgba(0, 212, 255, 1) 100%
+    );
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+#humidity-button:hover {
+    transform: scale(1.02);
+}
+
+#humidity-button:active {
+    transform: scale(0.95);
+}
+
+#humidity-button:hover::before {
+    opacity: 1;
+}
+
+/* Date selector styling */
 #date-input {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+    border-radius: 15px;
 }
 
 #measurement-wrapper {
     overflow: scroll;
-    margin: 1rem;
     flex: 1;
     padding: 0.5rem;
     display: grid;
     grid-template-rows: 1fr 5fr;
     grid-template-columns: auto;
     min-height: 0;
+    background-image: url("https://images.hdqwalls.com/wallpapers/clouds-summer-weather-5k-1b.jpg");
+    background-size: cover;
 }
 
 #current-measurement {
@@ -110,24 +210,60 @@ input {
     padding-right: 0.5rem;
 }
 
-#current-measurement div {
+#current-time {
+    font-weight: lighter !important;
+    text-align: center;
+    font-family: system-ui !important;
     flex: 1;
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    border: 0.01rem solid #fff;
+}
+
+#current-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex: 4;
+    backdrop-filter: blur(5px);
+    border: 0.01rem solid #fff;
+    border-radius: 15px;
+}
+
+#current-wrapper div {
+    flex: 1;
+}
+
+#current-measurement div {
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 3vh;
-    padding: 0.5rem;
+    padding: 0.2rem;
+    font-family: arial;
+}
+
+#measurement-wrapper {
+    gap: 15px;
 }
 
 #measurement-container {
     overflow: hidden;
-    height: 100%;
+    height: 100% - 0.1rem;
+    padding: 0.2rem;
+}
+
+#measurement-graph {
+    backdrop-filter: blur(20px);
+    border-radius: 15px;
+    border: 0.01rem solid #fff;
 }
 
 @media only screen and (min-width: 600px) {
     #header-wrapper h1 {
         font-size: 2rem;
-        margin-bottom: -1rem;
     }
 
     #header-wrapper h2 {
@@ -153,6 +289,7 @@ input {
         display: grid;
         grid-template-columns: 1fr 5fr;
         grid-template-rows: auto;
+        gap: 50px;
     }
 
     #current-measurement {
@@ -162,5 +299,17 @@ input {
     #setting-wrapper button,
     input {
         font-size: 0.5rem;
+    }
+
+    #temperature-button {
+        box-shadow: 3px 4px 6px rgba(255, 0, 0, 0.5);
+    }
+
+    #humidity-button {
+        box-shadow: 3px 4px 6px rgba(0, 0, 255, 0.5);
+    }
+
+    #current-wrapper {
+        flex-direction: column;
     }
 }
