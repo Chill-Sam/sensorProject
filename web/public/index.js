@@ -8,6 +8,7 @@ dateInput.valueAsDate = new Date(); // Set to today by default
 var selectedTemp = true;
 var selectedHum = false;
 
+// Function that takes in a reading and writes to the divs.
 function updateLatest(reading) {
     const currentTemperature = document.getElementById("current-temperature");
     const currentHumidity = document.getElementById("current-humidity");
@@ -16,7 +17,7 @@ function updateLatest(reading) {
         return; // No data or error
     }
 
-    // Set color of text
+    // Set color of text, if value is extreme set color to a more intense red/blue.
     currentTemperature.style.color =
         reading.temperature > 24 ? "rgba(255, 0, 0, 1)" : temperatureColor;
 
@@ -32,7 +33,7 @@ function updateChart(type, date, dataset) {
     let start = new Date(date).setHours(0, 0, 0, 0) - offset;
     let end = new Date(date).setHours(23, 59, 59, 999) - offset;
 
-    graph.setScale(start, end);
+    graph.setScale(start, end); // Set x-axis of graph to start at 00:00 and end at 23:59.
 
     graph.updateChart(type, dataset);
 }
@@ -69,6 +70,7 @@ document.querySelectorAll("#setting-wrapper button").forEach((button) => {
     });
 });
 
+// Update time div to current date at Hitachigymnasiet
 function updateTime() {
     const timeDiv = document.getElementById("current-time");
     const now = new Date();
@@ -82,7 +84,7 @@ const offset = 3600000; // Offset for Europe/Berlin timezone
 let start = new Date(date).setHours(0, 0, 0, 0) - offset;
 let end = new Date(date).setHours(23, 59, 59, 999) - offset;
 
-graph.setScale(start, end);
+graph.setScale(start, end); // Initialize graph to correct x-axis scale
 
 // Update time immediately and then every second
 updateTime();

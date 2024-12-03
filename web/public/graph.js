@@ -1,3 +1,5 @@
+// We manage chart.js in a class named Graph to simplify the process of handling the chart.
+
 class Graph {
     #chart; // Chart object
     #temperatureColor = "rgba(255, 165, 0, 1)";
