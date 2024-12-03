@@ -12,8 +12,12 @@ database.ref("latest").on("value", (snapshot) => {
     const data = snapshot.val();
     updateLatest(data);
 });
+const rawDateValue = dateInput.value; // e.g., "2024-01-01"
+const [year, month, day] = rawDateValue.split("-");
+// Remove leading zeros and join back
+const formattedDate = `${year}-${parseInt(month)}-${parseInt(day)}`;
 
-var dateRef = database.ref(dateInput.value);
+var dateRef = database.ref(formattedDate);
 
 var temperature_dataset;
 var humidity_dataset;
@@ -23,7 +27,11 @@ dateInput.addEventListener("change", (_event) => {
         dateRef = database.ref("0000-00-00");
         return;
     }
-    dateRef = database.ref(dateInput.value);
+    const rawDateValue = dateInput.value; // e.g., "2024-01-01"
+    const [year, month, day] = rawDateValue.split("-");
+    // Remove leading zeros and join back
+    const formattedDate = `${year}-${parseInt(month)}-${parseInt(day)}`;
+    dateRef = database.ref(formattedDate);
     dateRef.get().then((snapshot) => {
         if (snapshot.exists()) {
             const data = snapshot.val();
