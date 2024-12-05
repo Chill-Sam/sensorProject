@@ -217,7 +217,7 @@ body {
     flex: 1;
     backdrop-filter: blur(20px);
     border-radius: 15px;
-    border: 0.01rem solid #fff;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 #current-wrapper {
@@ -227,8 +227,8 @@ body {
     align-items: center;
     flex: 4;
     backdrop-filter: blur(5px);
-    border: 0.01rem solid #fff;
     border-radius: 15px;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 #current-wrapper div {
@@ -258,7 +258,7 @@ body {
 #measurement-graph {
     backdrop-filter: blur(20px);
     border-radius: 15px;
-    border: 0.01rem solid #fff;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 @media only screen and (min-width: 600px) {
