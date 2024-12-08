@@ -6,6 +6,7 @@
 #include <WiFiUdp.h>
 #include <AM2320.h>
 #include <Wire.h>
+#include <TimeLib.h>
 
 // Token generation process info
 #include "addons/TokenHelper.h"
@@ -16,14 +17,15 @@
 #define WIFI_SSID ""
 #define WIFI_PASSWORD ""
 
-#define NTP_OFFSET 0            // In seconds
+#define NTP_OFFSET 3600         // In seconds
 #define NTP_INTERVAL 60 * 1000  // In miliseconds
 #define NTP_ADDRESS "europe.pool.ntp.org"
 
 // Firebase access
-#define URL ""
-#define API_KEY ""
+#define URL "https://school-sensor-2ddce-default-rtdb.europe-west1.firebasedatabase.app/"
+#define API_KEY "AIzaSyA-q4cAoA8XO2VsfP1yfBSTnhE0yMGEKFo"
 #define TIME_LIMIT 10000
+#define LT_TIME_LIMIT 300000
 
 //Define Firebase Data object
 FirebaseData fbdo;
@@ -32,6 +34,7 @@ FirebaseAuth auth;
 FirebaseConfig config;
 
 FirebaseJson json;
+FirebaseJson json_lt;
 
 // NTP
 WiFiUDP ntpUDP;
@@ -46,7 +49,7 @@ String timePath = "/timestamp";
 AM2320 sensor;
 
 unsigned long sendDataPrevMillis = 0;
-int count = 0;
+unsigned long sendDataLTPrevMillis = 0;
 bool signupOK = false;
 
 void setup() {
@@ -70,7 +73,7 @@ void setup() {
 
   // Assign API key and URL
   config.api_key = API_KEY;
-  config.database_url = URL;es
+  config.database_url = URL;
 
   if (Firebase.signUp(&config, &auth, "", "")) {
     Serial.println("ok");
@@ -93,8 +96,17 @@ void loop() {
   timeClient.update();
   unsigned long epochTime = timeClient.getEpochTime();
 
+  setTime(epochTime);  // Set the time using the adjusted timestamp
+
+  // Extract and format the date
+  String str_year = String(year(epochTime));
+  String str_month = String(month(epochTime));
+  String str_day = String(day(epochTime));
+
+  String date = str_year + "-" + str_month + "-" + str_day;
+
   // Precheck before writing to server
-  unsigned long isReady = (millis() - sendDataPrevMillis > TIME_LIMIT || sendDataPrevMillis == 0);  // Has been more than 2s or is first send
+  unsigned long isReady = (millis() - sendDataPrevMillis > TIME_LIMIT || sendDataPrevMillis == 0);  // Has been more than 10s or is first send
   if (signupOK && Firebase.ready() && isReady) {
     sendDataPrevMillis = millis();
 
@@ -102,14 +114,22 @@ void loop() {
       // Write JSON data
       json.set(tempPath.c_str(), String(sensor.getTemperature()));
       json.set(humPath.c_str(), String(sensor.getHumidity()));
-      json.set(timePath.c_str(), epochTime);
 
-      if (Firebase.RTDB.setJSON(&fbdo, "/readings/" + String(epochTime), &json)) {
-        Serial.println("Data sent successfully to Firebase.");
-      } else {
-        Serial.printf("Failed to send data: %s\n", fbdo.errorReason().c_str());
+      Firebase.RTDB.setJSON(&fbdo, "latest/", &json);
+
+      if (millis() - sendDataLTPrevMillis > LT_TIME_LIMIT || sendDataLTPrevMillis == 0) {  // Update every 5 min
+        sendDataLTPrevMillis = millis();
+        json_lt.set(tempPath.c_str(), String(sensor.getTemperature()));
+        json_lt.set(humPath.c_str(), String(sensor.getHumidity()));
+        json_lt.set(timePath.c_str(), epochTime);
+
+        if (Firebase.RTDB.setJSON(&fbdo, date + "/" + String(epochTime), &json_lt)) {
+          Serial.println("Data sent successfully to Firebase.");
+        } else {
+          Serial.printf("Failed to send data: %s\n", fbdo.errorReason().c_str());
+        }
       }
-    
+
     } else {  // error has occured
       int errorCode = sensor.getErrorCode();
       switch (errorCode) {
