@@ -68,5 +68,3 @@ node_modules/
 # dataconnect generated files
 .dataconnect
 
-# Sensitive data
-web/public/sensitive.js
